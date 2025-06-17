@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work Management</title>
   <style>
     body {
       font-family: Garamond, serif;
       margin: 20px;
-      background-color: #1a2b4c; /* Light Navy Blue */
+      background-color: #336699; /* Light Navy Blue */
       color: #000;
     }
     .container {
@@ -60,6 +60,10 @@
       width: 100%;
       padding: 4px;
       margin-bottom: 6px;
+      font-family: Garamond, serif;
+    }
+    .readonly td input[type="radio"] {
+      pointer-events: none;
     }
   </style>
 </head>
@@ -69,7 +73,7 @@
 <div class="container">
 
   <!-- Shortcuts -->
-  <div class="box">
+  <div class="box" style="grid-column: span 1;">
     <h2>Shortcuts</h2>
     <ul id="shortcutList"></ul>
     <button class="green-button" onclick="openShortcutForm()">Add Shortcut</button>
@@ -84,6 +88,10 @@
   <!-- Tasks -->
   <div class="box" style="grid-column: span 2;">
     <h2>Task</h2>
+    <table id="taskTable">
+      <tr><th>Task</th><th>Owner</th><th>Status</th><th>Due Date</th></tr>
+    </table>
+    <button class="green-button" onclick="openTaskForm()">Add New Task</button>
     <div id="taskForm" class="form-section">
       <input type="text" id="taskName" placeholder="Task">
       <input type="text" id="taskOwner" placeholder="Owner">
@@ -91,15 +99,12 @@
       <button onclick="addTask()">Save Task</button>
       <button onclick="closeTaskForm()">Cancel</button>
     </div>
-    <table id="taskTable">
-      <tr><th>Task</th><th>Owner</th><th>Status</th><th>Due Date</th></tr>
-    </table>
-    <button class="green-button" onclick="openTaskForm()">Add New Task</button>
   </div>
 
   <!-- Notes -->
   <div class="box" style="grid-column: span 3;">
     <h2>Notes</h2>
+    <ul id="notesList"></ul>
     <button class="green-button" onclick="openNotesForm()">Add Notes</button>
     <div id="notesForm" class="form-section">
       <input type="text" id="noteTitle" placeholder="Title">
@@ -107,7 +112,6 @@
       <button onclick="addNote()">Save Notes</button>
       <button onclick="closeNotesForm()">Cancel</button>
     </div>
-    <ul id="notesList"></ul>
   </div>
 
 </div>
