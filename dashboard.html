@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Work Management</title>
   <style>
     body {
       font-family: Garamond, serif;
       margin: 20px;
-      background-color: #000033; /* Dark Navy Blue */
+      background-color: #1a2b4c; /* Light Navy Blue */
       color: #000;
     }
     .container {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
     .box {
@@ -60,10 +60,6 @@
       width: 100%;
       padding: 4px;
       margin-bottom: 6px;
-      font-family: Garamond, serif;
-    }
-    .readonly td input[type="radio"] {
-      pointer-events: none;
     }
   </style>
 </head>
@@ -73,7 +69,7 @@
 <div class="container">
 
   <!-- Shortcuts -->
-  <div class="box" style="grid-column: span 1;">
+  <div class="box">
     <h2>Shortcuts</h2>
     <ul id="shortcutList"></ul>
     <button class="green-button" onclick="openShortcutForm()">Add Shortcut</button>
@@ -88,7 +84,6 @@
   <!-- Tasks -->
   <div class="box" style="grid-column: span 2;">
     <h2>Task</h2>
-    <button class="green-button" onclick="openTaskForm()">Add New Task</button>
     <div id="taskForm" class="form-section">
       <input type="text" id="taskName" placeholder="Task">
       <input type="text" id="taskOwner" placeholder="Owner">
@@ -99,26 +94,11 @@
     <table id="taskTable">
       <tr><th>Task</th><th>Owner</th><th>Status</th><th>Due Date</th></tr>
     </table>
-  </div>
-
-  <!-- Attendance -->
-  <div class="box">
-    <h2>Today's Attendance</h2>
-    <button class="green-button" onclick="generateAttendanceForm()">Generate Attendance Link</button>
-    <input type="text" id="attendanceLink" readonly placeholder="Link">
-  </div>
-
-  <!-- Meetings -->
-  <div class="box" style="grid-column: span 2;">
-    <h2>Upcoming Meetings</h2>
-    <button class="green-button" onclick="loadMeetings()">Sync with Calendar</button>
-    <table id="meetingsTable">
-      <tr><th>Title</th><th>Agenda</th></tr>
-    </table>
+    <button class="green-button" onclick="openTaskForm()">Add New Task</button>
   </div>
 
   <!-- Notes -->
-  <div class="box" style="grid-column: span 2;">
+  <div class="box" style="grid-column: span 3;">
     <h2>Notes</h2>
     <button class="green-button" onclick="openNotesForm()">Add Notes</button>
     <div id="notesForm" class="form-section">
@@ -129,6 +109,7 @@
     </div>
     <ul id="notesList"></ul>
   </div>
+
 </div>
 
 <script>
@@ -184,28 +165,7 @@
     document.getElementById("notesList").appendChild(li);
     closeNotesForm();
   }
-
-  function generateAttendanceForm() {
-    const now = new Date();
-    const dateStr = now.toISOString().split('T')[0];
-    const formURL = 'https://forms.gle/iCXvYDwDgJVCrq8u9';
-    const fullLink = `${formURL}?date=${dateStr}`;
-    document.getElementById('attendanceLink').value = fullLink;
-  }
-
-  function loadMeetings() {
-    const table = document.getElementById("meetingsTable");
-    table.innerHTML += `<tr><td>Meeting 1</td><td>10:00 AM</td></tr>`;
-  }
-
-  setInterval(() => {
-    const now = new Date();
-    if (now.getHours() === 18 && now.getMinutes() === 0) {
-      console.log("Auto-submitting attendance to Google Sheets...");
-    }
-  }, 60000);
 </script>
 
 </body>
 </html>
-
