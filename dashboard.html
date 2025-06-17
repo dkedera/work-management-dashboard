@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Work Management</title>
   <style>
     body {
       font-family: Garamond, serif;
       margin: 20px;
-      background-color: #5a6d8f; /* Light Navy Blue */
+      background-color: #87AFC7; /* Light Navi Blue */
       color: #000;
-    }
-    h1, h2, h3, th, td, input, button, label, select {
-      font-family: Garamond, serif;
     }
     .container {
       display: grid;
@@ -26,21 +23,15 @@
       background: #f9f9f9;
     }
     h1 {
-      color: white;
+      color: #000;
       font-weight: bold;
     }
-    .green-button {
-      background-color: green;
-      color: white;
-      padding: 6px 10px;
-      border: none;
-      cursor: pointer;
-      margin-top: 5px;
+    h2, h3, th, td, input, button, ul, li {
+      font-family: Garamond, serif;
     }
-    input[type="text"], input[type="date"], select {
-      width: 100%;
-      padding: 4px;
-      margin-bottom: 6px;
+    h2 {
+      font-size: 1.1em;
+      margin-top: 0;
     }
     table {
       width: 100%;
@@ -51,34 +42,58 @@
       padding: 4px;
       text-align: left;
     }
-    .status-completed {
-      background-color: #007BFF;
+    .green-button {
+      background-color: green;
       color: white;
+      padding: 6px 10px;
+      border: none;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .form-section {
+      display: none;
+      margin-top: 10px;
+    }
+    input[type="text"], input[type="date"] {
+      width: 100%;
+      padding: 4px;
+      margin-bottom: 6px;
+    }
+    select {
+      width: 100%;
+      padding: 4px;
+      margin-bottom: 6px;
+    }
+    nav {
+      margin-bottom: 20px;
+    }
+    nav select {
+      padding: 6px;
+      font-family: Garamond, serif;
+    }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
 
-<h1>Work Management</h1>
-
-<!-- Navigation Dropdown -->
-<div style="margin-bottom: 20px;">
-  <label for="pageSelect" style="color:white; font-weight:bold;">Navigate to:</label>
-  <select id="pageSelect" onchange="navigatePage()">
+<nav>
+  <select onchange="navigatePage(this.value)">
     <option value="dashboard">Dashboard</option>
     <option value="records">Records</option>
     <option value="integrations">Integrations</option>
   </select>
-</div>
+</nav>
 
-<!-- Dashboard Page -->
 <div id="dashboardPage">
+  <h1>Work Management</h1>
   <div class="container">
-    <div class="box" style="grid-column: span 1;">
+    <div class="box">
       <h2>Shortcuts</h2>
       <ul id="shortcutList"></ul>
       <button class="green-button" onclick="openShortcutForm()">Add Shortcut</button>
-      <div id="shortcutForm" style="display:none">
+      <div id="shortcutForm" class="form-section">
         <input type="text" id="linkName" placeholder="Link Name">
         <input type="text" id="linkURL" placeholder="Link URL">
         <button onclick="addShortcut()">Save</button>
@@ -89,46 +104,49 @@
     <div class="box" style="grid-column: span 3;">
       <h2>Task</h2>
       <table id="taskTable">
-        <tr><th>Task</th><th>Owner</th><th>Description</th><th>Due Date</th><th>Status</th></tr>
+        <tr><th>Task</th><th>Owner</th><th>Description</th><th>Status</th><th>Due Date</th></tr>
       </table>
 
-      <button class="green-button" onclick="openTaskForm()">Add New Task</button>
-      <div id="taskForm" style="display:none">
+      <button class="green-button" onclick="toggleTaskForm()">Add New Task</button>
+      <div id="taskForm" class="form-section">
         <label>Task Name</label>
-        <input type="text" id="taskName">
+        <input type="text" id="taskName" placeholder="Task Name">
         <label>Task Owner</label>
-        <input type="text" id="taskOwner">
+        <input type="text" id="taskOwner" placeholder="Task Owner">
         <label>Description</label>
-        <input type="text" id="taskDesc">
+        <input type="text" id="taskDescription" placeholder="Task Description">
         <label>Due Date</label>
         <input type="date" id="taskDue">
         <button onclick="addTask()">Save Task</button>
-        <button onclick="closeTaskForm()">Cancel</button>
+        <button onclick="toggleTaskForm()">Cancel</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Records Page -->
-<div id="recordsPage" style="display: none;">
-  <h2>Completed Tasks</h2>
-  <table id="recordsTable">
+<div id="recordsPage" class="hidden">
+  <h1>Completed Tasks</h1>
+  <table id="completedTasksTable">
     <tr><th>Task</th><th>Owner</th><th>Description</th><th>Status</th><th>Due Date</th></tr>
   </table>
 </div>
 
-<!-- Integrations Page -->
-<div id="integrationsPage" style="display: none;">
-  <h2>Integrations</h2>
-  <p>Integration features coming soon...</p>
+<div id="integrationsPage" class="hidden">
+  <h1>Integrations</h1>
+  <p>Integrations page content goes here...</p>
 </div>
 
 <script>
-  function navigatePage() {
-    const selectedPage = document.getElementById("pageSelect").value;
-    document.getElementById("dashboardPage").style.display = (selectedPage === "dashboard") ? "block" : "none";
-    document.getElementById("recordsPage").style.display = (selectedPage === "records") ? "block" : "none";
-    document.getElementById("integrationsPage").style.display = (selectedPage === "integrations") ? "block" : "none";
+  function navigatePage(page) {
+    document.getElementById('dashboardPage').classList.add('hidden');
+    document.getElementById('recordsPage').classList.add('hidden');
+    document.getElementById('integrationsPage').classList.add('hidden');
+    document.getElementById(page + 'Page').classList.remove('hidden');
+  }
+
+  function toggleTaskForm() {
+    const form = document.getElementById('taskForm');
+    form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
   }
 
   function openShortcutForm() {
@@ -152,40 +170,30 @@
     }
   }
 
-  function openTaskForm() {
-    document.getElementById('taskForm').style.display = 'block';
-  }
-  function closeTaskForm() {
-    document.getElementById('taskForm').style.display = 'none';
-  }
   function addTask() {
     const name = document.getElementById('taskName').value;
     const owner = document.getElementById('taskOwner').value;
-    const desc = document.getElementById('taskDesc').value;
+    const desc = document.getElementById('taskDescription').value;
     const due = document.getElementById('taskDue').value;
-
+    const status = document.createElement("select");
+    status.innerHTML = `<option value="Pending">Pending</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option>`;
+    status.onchange = function () {
+      const color = this.value === 'Completed' ? '#0000FF' : (this.value === 'In Progress' ? '#FFA500' : '#FF0000');
+      this.style.backgroundColor = color;
+      if (this.value === 'Completed') {
+        moveToCompleted(this);
+      }
+    };
     const row = document.createElement("tr");
-    row.innerHTML = `<td>${name}</td><td>${owner}</td><td>${desc}</td><td>${due}</td>
-      <td>
-        <select onchange="updateStatus(this, this.parentElement.parentElement, '${name}', '${owner}', '${desc}', '${due}')">
-          <option value="Pending">Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
-        </select>
-      </td>`;
+    row.innerHTML = `<td>${name}</td><td>${owner}</td><td>${desc}</td><td></td><td>${due}</td>`;
+    row.cells[3].appendChild(status);
     document.getElementById("taskTable").appendChild(row);
-    closeTaskForm();
+    toggleTaskForm();
   }
 
-  function updateStatus(selectEl, row, name, owner, desc, due) {
-    const status = selectEl.value;
-    if (status === "Completed") {
-      const recordRow = document.createElement("tr");
-      recordRow.classList.add("status-completed");
-      recordRow.innerHTML = `<td>${name}</td><td>${owner}</td><td>${desc}</td><td>${status}</td><td>${due}</td>`;
-      document.getElementById("recordsTable").appendChild(recordRow);
-      row.remove();
-    }
+  function moveToCompleted(statusEl) {
+    const row = statusEl.parentElement.parentElement;
+    document.getElementById("completedTasksTable").appendChild(row);
   }
 </script>
 
