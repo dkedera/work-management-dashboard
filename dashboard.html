@@ -88,6 +88,7 @@
         <th>Description</th>
         <th>Status Icon</th>
         <th>Due Date</th>
+        <th>Current Status</th>
         <th>Status</th>
       </tr>
     </table>
@@ -171,7 +172,12 @@
 
     row.insertCell(4).innerText = due;
 
-    const statusCell = row.insertCell(5);
+    // Add cell for current status
+    const statusTextCell = row.insertCell(5);
+    statusTextCell.innerText = "Pending";
+
+    // Add dropdown for changing status
+    const statusDropdownCell = row.insertCell(6);
     const select = document.createElement("select");
     ["Pending", "In Progress", "Done"].forEach(status => {
       const opt = document.createElement("option");
@@ -180,14 +186,15 @@
       select.appendChild(opt);
     });
 
-    // ✅ Dropdown changes the icon
     select.onchange = () => {
       if (select.value === "Done") iconCell.textContent = "🔵";
       else if (select.value === "In Progress") iconCell.textContent = "🟡";
       else iconCell.textContent = "🔴";
+
+      statusTextCell.innerText = select.value;
     };
 
-    statusCell.appendChild(select);
+    statusDropdownCell.appendChild(select);
 
     // Reset form
     document.getElementById('taskName').value = "";
